@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Balance · Mis finanzas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=3" />
+</head>
+<body class="dark">
+  <main class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">$</span><span>saldo.</span></div>
+      <nav>
+        <a class="nav-item active" href="#resumen"><span>◈</span> Resumen</a>
+        <a class="nav-item" href="#movimientos"><span>↕</span> Movimientos</a>
+        <a class="nav-item" href="#categorias"><span>◉</span> Categorías</a>
+      </nav>
+      <div class="sidebar-actions">
+        <button class="side-action" id="exportButton">↓ <span>Guardar CSV</span></button>
+        <label class="side-action" for="importInput">↑ <span>Cargar CSV</span></label>
+        <input id="importInput" type="file" accept=".csv,text/csv" hidden>
+      </div>
+      <div class="sidebar-note"><span class="spark">✦</span><strong>Un paso a la vez.</strong><p>Entender tus hábitos es el primer paso para mejorar tus finanzas.</p></div>
+      <div class="profile"><div class="avatar">R</div><div><strong>Ruben</strong><small>Cuenta personal</small></div><span class="dots">•••</span></div>
+    </aside>
+
+    <section class="content" id="resumen">
+      <header class="topbar"><div><p class="eyebrow">MI ESPACIO FINANCIERO</p><h1>Hola, Ruben <span>✦</span></h1></div><button class="icon-button" aria-label="Notificaciones">♢<i></i></button></header>
+
+      <div class="period-row"><div><h2>Resumen del mes</h2><p id="periodLabel">Agosto 2026</p></div><button class="period-button" id="periodButton">Este mes <span>⌄</span></button></div>
+
+      <section class="summary-grid">
+        <article class="balance-card"><div class="card-label">BALANCE TOTAL <span>ⓘ</span></div><div class="balance-value" id="balanceValue">$0</div><div class="trend positive" id="balanceTrend">↑ Añade tus primeros movimientos</div><div class="mini-chart"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></article>
+        <article class="stat-card"><div class="card-label">INGRESOS <span class="income-icon">↗</span></div><div class="stat-value income" id="incomeValue">$0</div><div class="muted">Total de entradas</div></article>
+        <article class="stat-card"><div class="card-label">GASTOS <span class="expense-icon">↘</span></div><div class="stat-value expense" id="expenseValue">$0</div><div class="muted">Total de salidas</div></article>
+      </section>
+
+      <div class="dashboard-grid">
+        <section class="panel transactions-panel" id="movimientos"><div class="panel-heading"><div><h2>Movimientos recientes</h2><p>Tu actividad financiera de este mes</p></div><button class="primary-button" id="addButton">+ Añadir movimiento</button></div><div class="toolbar"><div class="search-box">⌕<input id="searchInput" placeholder="Buscar movimiento..." /></div><select id="typeFilter"><option value="all">Todos</option><option value="income">Ingresos</option><option value="expense">Gastos</option></select></div><div class="transaction-list" id="transactionList"></div></section>
+        <section class="panel categories-panel" id="categorias"><div class="panel-heading"><div><h2>Gastos por categoría</h2><p>¿En qué se va tu dinero?</p></div><button class="text-button">Ver todo →</button></div><div id="categoryList" class="category-list"></div><div class="category-total"><span>Total gastos</span><strong id="categoryTotal">$0</strong></div></section>
+      </div>
+      <footer>Los datos se guardan solo en este navegador · <button id="resetButton">Restablecer datos de ejemplo</button></footer>
+    </section>
+  </main>
+
+  <dialog id="movementDialog"><form method="dialog" id="movementForm"><div class="dialog-heading"><div><p class="eyebrow">NUEVO REGISTRO</p><h2>Añadir movimiento</h2></div><button class="close-button" value="cancel" aria-label="Cerrar">×</button></div><label>Descripción<input name="description" required placeholder="Ej. Supermercado" /></label><div class="form-row"><label>Tipo<select name="type"><option value="expense">Gasto</option><option value="income">Ingreso</option></select></label><label>Monto<input name="amount" type="number" min="0.01" step="0.01" required placeholder="0.00" /></label></div><label>Categoría<select name="category"><option>Alimentación</option><option>Transporte</option><option>Vivienda</option><option>Ocio</option><option>Salud</option><option>Otros</option><option>Salario</option><option>Freelance</option></select></label><label>Fecha<input name="date" type="date" required /></label><button class="primary-button full" value="default">Guardar movimiento</button></form></dialog>
+  <script src="app.js?v=3"></script>
+</body>
+</html>
