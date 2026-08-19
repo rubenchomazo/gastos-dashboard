@@ -1,13 +1,29 @@
 const STORAGE_KEY = 'saldo-sheet-csv-url'
+const DEFAULT_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yiuTaDgGzbFhT-GNO3criDebXTFhNoWNsLPQlJIBP_k/edit?usp=sharing'
 
 export function getSheetUrl() {
-  return localStorage.getItem(STORAGE_KEY) || ''
+  return localStorage.getItem(STORAGE_KEY) || normalizeSheetUrl(DEFAULT_SHEET_URL)
 }
 
 export function saveSheetUrl(url) {
-  const cleanUrl = url.trim()
+  const cleanUrl = normalizeSheetUrl(url)
   if (cleanUrl) localStorage.setItem(STORAGE_KEY, cleanUrl)
   else localStorage.removeItem(STORAGE_KEY)
+  return cleanUrl
+}
+
+function normalizeSheetUrl(url) {
+  const cleanUrl = String(url || '').trim()
+  if (!cleanUrl) return ''
+  try {
+    const parsed = new URL(cleanUrl)
+    const match = parsed.pathname.match(/\/spreadsheets\/d\/([^/]+)/)
+    if (parsed.hostname === 'docs.google.com' && match && !parsed.pathname.includes('/export')) {
+      return `https://docs.google.com/spreadsheets/d/${match[1]}/export?format=csv`
+    }
+  } catch {
+    return cleanUrl
+  }
   return cleanUrl
 }
 
