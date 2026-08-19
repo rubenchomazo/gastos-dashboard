@@ -1,3 +1,5 @@
+import { fetchMovementsFromSheet, getSheetUrl, saveSheetUrl } from './googleSheets.js'
+
 const seed = [
   {description:'Supermercado', category:'Alimentación', type:'expense', amount:86.40, date:'2026-08-18', icon:'🛒'},
   {description:'Nómina mensual', category:'Salario', type:'income', amount:2400, date:'2026-08-15', icon:'↗'},
@@ -6,6 +8,7 @@ const seed = [
   {description:'Cine con amigos', category:'Ocio', type:'expense', amount:28, date:'2026-08-05', icon:'◇'}
 ];
 let movements = JSON.parse(localStorage.getItem('saldo-movements') || 'null') || seed;
+let usingSheet = false;
 const money = value => new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(value).replace(' ',' ');
 const dateText = date => new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'short'}).format(new Date(`${date}T12:00:00`)).replace('.','');
 const categoryIcon = c => ({Alimentación:'🛒',Transporte:'▣',Vivienda:'⌂',Ocio:'◇',Salud:'✚',Salario:'↗',Freelance:'✦',Otros:'•'}[c] || '•');
@@ -49,4 +52,30 @@ document.querySelector('#importInput').addEventListener('change',event=>{
     render(); event.target.value='';
   }; reader.readAsText(file);
 });
+
+async function syncFromSheet(showMessage=true){
+  const status=document.querySelector('#syncStatus');
+  try{
+    status.textContent='Sincronizando...';
+    document.body.classList.add('sync-loading');
+    const result=await fetchMovementsFromSheet();
+    if(!result.configured){ status.textContent='Google Sheets no configurado'; usingSheet=false; return; }
+    movements=result.movements; usingSheet=true; render();
+    status.textContent=`Sincronizado · ${new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'})}`;
+  }catch(error){
+    console.error(error); status.textContent='Error al sincronizar';
+    if(showMessage) alert(error.message);
+  }finally{ document.body.classList.remove('sync-loading'); }
+}
+
+document.querySelector('#syncButton').addEventListener('click',()=>syncFromSheet());
+document.querySelector('#connectSheetButton').addEventListener('click',()=>{
+  const current=getSheetUrl();
+  const url=prompt('Pega la URL CSV publicada de tu Google Sheet:\n\nArchivo → Compartir → Publicar en la web → CSV',current);
+  if(url===null) return;
+  saveSheetUrl(url); syncFromSheet();
+});
+
+syncFromSheet(false);
+setInterval(()=>{ if(getSheetUrl()) syncFromSheet(false); },60000);
 render();
