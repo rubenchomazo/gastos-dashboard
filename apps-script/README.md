@@ -20,3 +20,5 @@ description,category,type,amount,date
 ```
 
 El endpoint reemplaza las filas de datos con la lista actual del dashboard y conserva los encabezados. No compartas la URL de la aplicación web si la implementación no está protegida con una cuenta autorizada.
+
+El dashboard lee los datos mediante la URL CSV pública y usa el Web App solo para escribir. Esto evita el bloqueo CORS que producen las redirecciones de Google Apps Script en navegadores.

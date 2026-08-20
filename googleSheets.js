@@ -14,23 +14,15 @@ export function saveSheetConnection(csvUrl, apiUrl = '') {
 }
 
 export async function fetchMovementsFromSheet() {
-  const apiUrl = getApiUrl()
-  if (apiUrl) {
-    const response = await fetch(apiUrl, {cache:'no-store'})
-    if (!response.ok) throw new Error(`Google Apps Script respondió con HTTP ${response.status}`)
-    const payload = await response.json()
-    return {movements: payload.movements || [], configured:true, writable:true}
-  }
   const response = await fetch(getSheetUrl(), {cache:'no-store'})
   if (!response.ok) throw new Error(`Google Sheets respondió con HTTP ${response.status}`)
-  return {movements: parseCSV(await response.text()), configured:true, writable:false}
+  return {movements: parseCSV(await response.text()), configured:true, writable:Boolean(getApiUrl())}
 }
 
 export async function saveMovementsToSheet(movements) {
   const apiUrl = getApiUrl()
   if (!apiUrl) return {saved:false}
-  const response = await fetch(apiUrl, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({action:'replace', movements})})
-  if (!response.ok) throw new Error(`No se pudo guardar en Google Sheets (HTTP ${response.status})`)
+  await fetch(apiUrl, {method:'POST', mode:'no-cors', headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'}, body:new URLSearchParams({payload:JSON.stringify({action:'replace', movements})})})
   return {saved:true}
 }
 

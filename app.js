@@ -122,7 +122,7 @@ async function syncFromSheet(showMessage = true) {
 }
 async function persistChanges() {
   if (!getApiUrl()) { document.querySelector('#syncStatus').textContent = 'Cambio local · conecta Apps Script para guardarlo'; return }
-  try { document.querySelector('#syncStatus').textContent = 'Guardando en Google Sheets...'; await saveMovementsToSheet(movements); document.querySelector('#syncStatus').textContent = 'Guardado en Google Sheets' }
+  try { document.querySelector('#syncStatus').textContent = 'Guardando en Google Sheets...'; await saveMovementsToSheet(movements); document.querySelector('#syncStatus').textContent = 'Enviado a Google Sheets' }
   catch (error) { document.querySelector('#syncStatus').textContent = 'Error al guardar'; alert(error.message) }
 }
 document.querySelector('#syncButton').addEventListener('click', () => syncFromSheet())

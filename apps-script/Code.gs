@@ -16,7 +16,8 @@ function doGet() {
 }
 
 function doPost(event) {
-  const body = JSON.parse(event.postData.contents || '{}')
+  const raw = event.parameter && event.parameter.payload ? event.parameter.payload : (event.postData.contents || '{}')
+  const body = JSON.parse(raw)
   if (body.action !== 'replace' || !Array.isArray(body.movements)) return json_({ok:false, error:'Acción no válida'})
   const sheet = getSheet_()
   const rows = [['description', 'category', 'type', 'amount', 'date'], ...body.movements.map(item => [item.description, item.category, item.type, Number(item.amount) || 0, item.date])]
