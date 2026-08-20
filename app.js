@@ -24,6 +24,8 @@ function render(){
 }
 document.querySelector('#addButton').addEventListener('click',()=>{document.querySelector('[name=date]').value=new Date().toISOString().slice(0,10);document.querySelector('#movementDialog').showModal()});
 document.querySelector('#movementForm').addEventListener('submit',e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.target));movements.push({...data,amount:Number(data.amount),icon:categoryIcon(data.category)});e.target.reset();document.querySelector('#movementDialog').close();render()});
+document.querySelector('#closeDialogButton').addEventListener('click',()=>document.querySelector('#movementDialog').close());
+document.querySelector('#movementDialog').addEventListener('click',event=>{if(event.target===event.currentTarget) event.currentTarget.close()});
 document.querySelector('#searchInput').addEventListener('input',render); document.querySelector('#typeFilter').addEventListener('change',render);
 document.querySelector('#resetButton').addEventListener('click',()=>{movements=[...seed];render()});
 
