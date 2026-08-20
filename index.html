@@ -22,7 +22,7 @@
         <button class="side-action" id="exportButton">↓ <span>Guardar CSV</span></button>
         <label class="side-action" for="importInput">↑ <span>Cargar CSV</span></label>
         <input id="importInput" type="file" accept=".csv,text/csv" hidden>
-        <button class="side-action" id="connectSheetButton">▣ <span>Conectar Google Sheets</span></button>
+        <button class="side-action" id="connectSheetButton">▣ <span>Configurar Google Sheets</span></button>
       </div>
       <div class="sidebar-note"><span class="spark">✦</span><strong>Un paso a la vez.</strong><p>Entender tus hábitos es el primer paso para mejorar tus finanzas.</p></div>
       <div class="profile"><div class="avatar">R</div><div><strong>Ruben</strong><small>Cuenta personal</small></div><span class="dots">•••</span></div>
@@ -43,7 +43,7 @@
         <section class="panel transactions-panel" id="movimientos"><div class="panel-heading"><div><h2>Movimientos recientes</h2><p>Tu actividad financiera de este mes</p></div><button class="primary-button" id="addButton">+ Añadir movimiento</button></div><div class="toolbar"><div class="search-box">⌕<input id="searchInput" placeholder="Buscar movimiento..." /></div><select id="typeFilter"><option value="all">Todos</option><option value="income">Ingresos</option><option value="expense">Gastos</option></select></div><div class="transaction-list" id="transactionList"></div></section>
         <section class="panel categories-panel" id="categorias"><div class="panel-heading"><div><h2>Gastos por categoría</h2><p>¿En qué se va tu dinero?</p></div><button class="text-button">Ver todo →</button></div><div id="categoryList" class="category-list"></div><div class="category-total"><span>Total gastos</span><strong id="categoryTotal">$0</strong></div></section>
       </div>
-      <footer><span id="syncStatus">Datos locales</span> · <button id="syncButton">Sincronizar ahora</button> · <button id="resetButton">Restablecer datos de ejemplo</button></footer>
+      <footer><span id="syncStatus">Datos locales</span> · <button id="syncButton">Sincronizar ahora</button> · <button id="resetButton">Restablecer datos de ejemplo</button><br><small>Configura Apps Script para guardar los cambios permanentemente en Google Sheets.</small></footer>
     </section>
   </main>
 
