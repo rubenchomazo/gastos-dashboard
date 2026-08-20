@@ -11,6 +11,15 @@ const seed = [
 let movements = JSON.parse(localStorage.getItem('saldo-movements') || 'null') || seed
 let editingIndex = null
 
+const oldPeriodButton = document.querySelector('#periodButton')
+if (oldPeriodButton) {
+  const periodSelect = document.createElement('select')
+  periodSelect.id = 'periodSelect'
+  periodSelect.className = 'period-button'
+  periodSelect.innerHTML = '<option value="current">Este mes</option><option value="previous">Mes anterior</option><option value="all">Todos los movimientos</option>'
+  oldPeriodButton.replaceWith(periodSelect)
+}
+
 const money = value => new Intl.NumberFormat('es-CO', {style:'currency', currency:'COP', maximumFractionDigits:0}).format(value).replace('\u00a0', ' ')
 const dateText = date => new Intl.DateTimeFormat('es-ES', {day:'numeric', month:'short'}).format(new Date(`${date}T12:00:00`)).replace('.', '')
 const categoryIcon = category => ({Alimentación:'🛒', Transporte:'▣', Vivienda:'⌂', Ocio:'◇', Salud:'✚', Salario:'↗', Freelance:'✦', Otros:'•'}[category] || '•')
